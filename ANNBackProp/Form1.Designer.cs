@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.Title title4 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.buttonQuit = new System.Windows.Forms.Button();
             this.buttonTest2 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -52,7 +52,9 @@
             this.buttonRunCancer = new System.Windows.Forms.Button();
             this.textPath = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.layoutOutputAndGraph = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.nnChart)).BeginInit();
+            this.layoutOutputAndGraph.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonQuit
@@ -81,11 +83,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.Font = new System.Drawing.Font("Courier New", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(12, 197);
+            this.textBox1.Location = new System.Drawing.Point(3, 3);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox1.Size = new System.Drawing.Size(514, 404);
+            this.textBox1.Size = new System.Drawing.Size(485, 398);
             this.textBox1.TabIndex = 2;
             // 
             // buttonTest1
@@ -120,55 +122,59 @@
             // 
             // nnChart
             // 
-            this.nnChart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.nnChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.nnChart.BorderlineColor = System.Drawing.Color.Gray;
             this.nnChart.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea1.Name = "ChartArea1";
-            this.nnChart.ChartAreas.Add(chartArea1);
-            legend1.BorderColor = System.Drawing.Color.Black;
-            legend1.DockedToChartArea = "ChartArea1";
-            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend1.IsDockedInsideChartArea = false;
-            legend1.Name = "Legend1";
-            legend1.TableStyle = System.Windows.Forms.DataVisualization.Charting.LegendTableStyle.Wide;
-            this.nnChart.Legends.Add(legend1);
-            this.nnChart.Location = new System.Drawing.Point(536, 197);
+            chartArea2.Name = "ChartArea1";
+            this.nnChart.ChartAreas.Add(chartArea2);
+            legend2.BorderColor = System.Drawing.Color.Black;
+            legend2.DockedToChartArea = "ChartArea1";
+            legend2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend2.IsDockedInsideChartArea = false;
+            legend2.Name = "Legend1";
+            legend2.TableStyle = System.Windows.Forms.DataVisualization.Charting.LegendTableStyle.Wide;
+            this.nnChart.Legends.Add(legend2);
+            this.nnChart.Location = new System.Drawing.Point(493, 2);
             this.nnChart.Margin = new System.Windows.Forms.Padding(2);
             this.nnChart.Name = "nnChart";
-            series1.BorderWidth = 2;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series1.Legend = "Legend1";
-            series1.Name = "Training";
-            series2.BorderWidth = 2;
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series2.Legend = "Legend1";
-            series2.Name = "Testing";
-            this.nnChart.Series.Add(series1);
-            this.nnChart.Series.Add(series2);
-            this.nnChart.Size = new System.Drawing.Size(450, 403);
+            series3.BorderWidth = 2;
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series3.Legend = "Legend1";
+            series3.Name = "Training";
+            series4.BorderWidth = 2;
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series4.Legend = "Legend1";
+            series4.Name = "Testing";
+            this.nnChart.Series.Add(series3);
+            this.nnChart.Series.Add(series4);
+            this.nnChart.Size = new System.Drawing.Size(487, 400);
             this.nnChart.TabIndex = 6;
             this.nnChart.Text = "chart1";
-            title1.Alignment = System.Drawing.ContentAlignment.BottomCenter;
-            title1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            title1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            title1.Name = "Epochs";
-            title1.Text = "Epochs";
-            title2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
-            title2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            title2.Name = "Title1";
-            title2.Text = "Accuracy %";
-            this.nnChart.Titles.Add(title1);
-            this.nnChart.Titles.Add(title2);
+            title3.Alignment = System.Drawing.ContentAlignment.BottomCenter;
+            title3.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            title3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            title3.Name = "Epochs";
+            title3.Text = "Epochs";
+            title4.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
+            title4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            title4.Name = "Title1";
+            title4.Text = "Accuracy %";
+            this.nnChart.Titles.Add(title3);
+            this.nnChart.Titles.Add(title4);
             // 
             // nnProgressBar
             // 
-            this.nnProgressBar.Location = new System.Drawing.Point(12, 169);
+            this.nnProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.nnProgressBar.Location = new System.Drawing.Point(10, 169);
             this.nnProgressBar.Margin = new System.Windows.Forms.Padding(2);
             this.nnProgressBar.Name = "nnProgressBar";
-            this.nnProgressBar.Size = new System.Drawing.Size(974, 22);
+            this.nnProgressBar.Size = new System.Drawing.Size(982, 22);
             this.nnProgressBar.TabIndex = 7;
             this.nnProgressBar.Click += new System.EventHandler(this.nnProgressBar_Click);
             // 
@@ -271,11 +277,29 @@
             this.label1.TabIndex = 14;
             this.label1.Text = "Data Root: ";
             // 
+            // layoutOutputAndGraph
+            // 
+            this.layoutOutputAndGraph.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.layoutOutputAndGraph.ColumnCount = 2;
+            this.layoutOutputAndGraph.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.layoutOutputAndGraph.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.layoutOutputAndGraph.Controls.Add(this.nnChart, 1, 0);
+            this.layoutOutputAndGraph.Controls.Add(this.textBox1, 0, 0);
+            this.layoutOutputAndGraph.Location = new System.Drawing.Point(10, 196);
+            this.layoutOutputAndGraph.Name = "layoutOutputAndGraph";
+            this.layoutOutputAndGraph.RowCount = 1;
+            this.layoutOutputAndGraph.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.layoutOutputAndGraph.Size = new System.Drawing.Size(982, 404);
+            this.layoutOutputAndGraph.TabIndex = 15;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1004, 612);
+            this.Controls.Add(this.layoutOutputAndGraph);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textPath);
             this.Controls.Add(this.buttonRunCancer);
@@ -287,16 +311,16 @@
             this.Controls.Add(this.buttonHeartCleveland);
             this.Controls.Add(this.buttonRunWine);
             this.Controls.Add(this.nnProgressBar);
-            this.Controls.Add(this.nnChart);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.buttonRunStudent);
             this.Controls.Add(this.buttonTest1);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.buttonTest2);
             this.Controls.Add(this.buttonQuit);
             this.Name = "Form1";
             this.Text = "Ann Test v5.0.00b";
             ((System.ComponentModel.ISupportInitialize)(this.nnChart)).EndInit();
+            this.layoutOutputAndGraph.ResumeLayout(false);
+            this.layoutOutputAndGraph.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -322,6 +346,7 @@
         private System.Windows.Forms.Button buttonRunCancer;
         private System.Windows.Forms.TextBox textPath;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TableLayoutPanel layoutOutputAndGraph;
     }
 }
 
