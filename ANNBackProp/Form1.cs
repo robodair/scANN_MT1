@@ -511,7 +511,7 @@ namespace ANNShell
             string commonNameForDataset = "Cancer Dataset";
 
             int inputs = 9;
-            int hidden = 1;
+            int hidden = 5;
             int outputs = 2;
             double eta = 0.05;
             int epochs = 200;
@@ -528,6 +528,8 @@ namespace ANNShell
             string s = cancerRaw.showDataPart(5, inputs + 1, "F4", commonNameForDataset);
             textBox1.AppendText(s);
             textBox1.AppendText("\r\n\r\n");
+
+            processData(cancerRaw, inputs);
 
             //irisRaw.normalize(0, 1, "");
             //string ss = irisRaw.showDataPart(5, inputs + 1, "F4", commonNameFoDataset + " Normalised");
@@ -590,6 +592,39 @@ namespace ANNShell
 
             // finally save weights for the future
             nn.saveANN(dir + @"\cancer_Weights.txt");
+        }
+
+
+        private DataClass processData(DataClass rawData, int inputs)
+        {
+            //find max and min of the input dataset
+            double max = rawData.data[0][0];
+            double min = rawData.data[0][0];
+
+            for (int i = 0; i<inputs; i++)
+            {
+                for (int j = 0; j<rawData.rows;j++)
+                {
+
+                    if (max < rawData.data[j][i])
+                    {
+                        max = rawData.data[j][i];
+                    }
+                    if (min > rawData.data[j][i])
+                    {
+                        min = rawData.data[j][i];
+                    }
+                }
+            }
+            //Divide each input by the max and multiply by the min
+            for (int i = 0; i < inputs; i++)
+            {
+                for (int j = 0; j < rawData.rows; j++)
+                {
+                    rawData.data[j][i] = rawData.data[j][i]/max*min;
+                }
+            }
+            return rawData;
         }
     }
 }
