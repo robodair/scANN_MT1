@@ -448,7 +448,7 @@ namespace ANNShell
             //textBox1.AppendText(ss);
             //textBox1.AppendText("\r\n\r\n");
 
-            DataClass cancerExemplar = heartClevelandRaw.makeExemplar(inputs, outputs, 1);
+            DataClass cancerExemplar = heartClevelandRaw.makeExemplar(inputs, outputs, 0);
             string se = cancerExemplar.showDataPart(5, inputs + outputs, "F4", commonNameForDataset + " Exemplar Data");
             textBox1.AppendText(se);
             textBox1.AppendText("\r\n\r\n");
