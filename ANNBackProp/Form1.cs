@@ -402,21 +402,49 @@ namespace ANNShell
             textBox1.AppendText("Validation Confusion Matrix \r\n" + ConfusionVal + "\r\n\r\n");
 
         }
+
+        private void showDataDistribution(DataClass dataClass, string title, int outputs)
+        {
+            textBox1.AppendText(title + "A:" + dataClass.attributes + "C:" + dataClass.columns + "\r\n");
+            int[] counts = new int[outputs];
+            foreach (double[] row in dataClass.data)
+            {
+                for(int i = 0; i < outputs; i++)
+                {
+                    int index = dataClass.columns - outputs + i;
+                    if (row[index] > 0.5d)
+                    {
+                        ++counts[i];
+                    }
+                }
+                
+            }
+            foreach (int count in counts)
+            {
+                textBox1.AppendText(count + "\t");
+            }
+            textBox1.AppendText("\r\n\r\n");
+        }
         
         // Ass1 Q1
         private void btnWeedSeed_Click(object sender, EventArgs e)
         {
             string dir = this.textPath.Text;
-            string datafile = @"\weedseed.txt";
+            string datafile = @"\Ass1Data\weedseed.txt";
             string commonNameForDataset = "WeedSeed Dataset";
 
             int inputs = 7;
-            int hidden = 9;
             int outputs = 10;
-            double eta = 0.05;
-            int epochs = 2000;
-            Random rnd1 = new Random(1996); // data split random number
-            Random rnd2 = new Random(); // ANN initialise weights and shuffle data random number
+
+            int hidden = (int)numericNodesBox.Value;
+            double eta = (double)numericETA.Value;
+            int epochs = (int)numericEpochsBox.Value;
+
+            Random rnd1 = new Random(2007); // data split random number
+            //int seed = System.DateTime.UtcNow.Millisecond;
+            int seed = (int)numericWeedSeedSeed.Value;
+            textBox1.AppendText("TODAY'S SEED: " + seed.ToString() + "\r\n\r\n");
+            Random rnd2 = new Random(seed); // ANN initialise weights and shuffle data random number
             int sizeOfDataSet = 398;
             int sizeOfTest = sizeOfDataSet / 3;
             int sizeOfValidation = sizeOfDataSet / 3;
@@ -446,9 +474,13 @@ namespace ANNShell
 
             weedSeedExemplar.extractSplit(out trainData, out tempData, sizeOfTrain, rnd1);
             tempData.extractSplit(out testData, out valData, sizeOfTest, rnd1);
-            trainData.writeToFile(dir, @"\weedSeedTempTrain.txt"); // debug
-            testData.writeToFile(dir, @"\weedSeedTempTest.txt");
-            valData.writeToFile(dir, @"\weedSeedTempVal.txt");
+            trainData.writeToFile(dir, @"\Ass1Data\Out\weedseed\weedSeedTempTrain.txt"); // debug
+            testData.writeToFile(dir, @"\Ass1Data\Out\weedseed\weedSeedTempTest.txt");
+            valData.writeToFile(dir, @"\Ass1Data\Out\weedseed\weedSeedTempVal.txt");
+
+            showDataDistribution(trainData, "Training Data Class Distribution", outputs);
+            showDataDistribution(testData, "Testing Data Class Distribution", outputs);
+            showDataDistribution(valData, "Validation Data Class Distribution", outputs);
 
             string s1 = trainData.showDataPart(5, inputs + outputs, "F4", commonNameForDataset + " Training Data");
             textBox1.AppendText(s1);
@@ -465,15 +497,15 @@ namespace ANNShell
             NeuralNetwork nn = new NeuralNetwork(inputs, hidden, outputs, new UI(this), rnd2);
             nn.InitializeWeights(rnd2);
             textBox1.AppendText("\r\nBeginning training using incremental back-propagation\r\n");
-            nn.train(trainData.data, testData.data, epochs, eta, dir + "nnlog.txt", nnChart, nnProgressBar, true);
+            nn.train(trainData.data, testData.data, epochs, eta, dir + @"\Ass1Data\Out\weedseed\nnlog.txt", nnChart, nnProgressBar, true);
             textBox1.AppendText("Training complete\r\n");
 
-            double trainAcc = nn.Accuracy(trainData.data, dir + "trainOut.txt");
-            string ConfusionTrain = nn.showConfusionPercent(dir + "trainConfusion.txt");
-            double testAcc = nn.Accuracy(testData.data, dir + "testOut.txt");
-            string ConfusionTest = nn.showConfusionPercent(dir + "testConfusion.txt");
-            double valAcc = nn.Accuracy(valData.data, dir + "valOut.txt");
-            string ConfusionVal = nn.showConfusionPercent(dir + "valConfusion.txt");
+            double trainAcc = nn.Accuracy(trainData.data, dir + @"\Ass1Data\Out\weedseed\trainOut.txt");
+            string ConfusionTrain = nn.showConfusionPercent(dir + @"\Ass1Data\Out\weedseed\trainConfusion.txt");
+            double testAcc = nn.Accuracy(testData.data, dir + @"\Ass1Data\Out\weedseed\testOut.txt");
+            string ConfusionTest = nn.showConfusionPercent(dir + @"\Ass1Data\Out\weedseed\testConfusion.txt");
+            double valAcc = nn.Accuracy(valData.data, dir + @"\Ass1Data\Out\weedseed\valOut.txt");
+            string ConfusionVal = nn.showConfusionPercent(dir + @"\Ass1Data\Out\weedseed\valConfusion.txt");
 
             // convert accuracy to percents
             trainAcc = trainAcc * 100;
@@ -489,7 +521,7 @@ namespace ANNShell
             textBox1.AppendText("Validation Confusion Matrix \r\n" + ConfusionVal + "\r\n\r\n");
 
             // finally save weights for the future
-            nn.saveANN(dir + @"\weedSeed_Weights.txt");
+            nn.saveANN(dir + @"\Ass1Data\Out\weedseed\weedSeed_Weights.txt");
         }
 
         // Ass1 Q2a
