@@ -720,6 +720,182 @@ namespace ANNShell
             nn.saveANN(dir + @"\Ass1Data\Out\task2z13\task2z13_Weights.txt");
         }
 
+        // Ass1 Q3
+        private void btnTask3_Click(object sender, EventArgs e)
+        {
+            string dir = this.textPath.Text;
+            string datafile = @"\Ass1Data\task3main.txt";
+            string commonNameForDataset = "Task 3 Dataset";
+
+            int inputs = 2;
+            int outputs = 2;
+
+            int hidden = (int)numericNodesBox.Value;
+            double eta = (double)numericETA.Value;
+            int epochs = (int)numericEpochsBox.Value;
+
+            List<string[]> records = new List<string[]>();
+            Dictionary<string, int> anomalous = new Dictionary<string, int>();
+
+            for (int iterations = 0; iterations < 200; ++iterations) {
+
+                Random rnd1 = new Random(iterations); // data split random number
+                int seed = System.DateTime.UtcNow.Millisecond;
+                //int seed = (int)numerictask3Seed.Value;
+                Random rnd2 = new Random(seed); // ANN initialise weights and shuffle data random number
+                int sizeOfDataSet = 400;
+                int sizeOfTest = sizeOfDataSet / 3;
+                int sizeOfValidation = sizeOfDataSet / 3;
+                int sizeOfTrain = sizeOfDataSet - sizeOfTest - sizeOfValidation;
+
+                textBox2.Clear(); // clear previous messages
+
+                DataClass task3Raw = new DataClass(dir, datafile, new UI(this));
+                string s = task3Raw.showDataPart(5, inputs + 1, "F4", commonNameForDataset);
+                textBox1.AppendText(s);
+                textBox1.AppendText("\r\n\r\n");
+
+                task3Raw.normalize(0, inputs - 1, "");
+                string ss = task3Raw.showDataPart(5, inputs + 1, "F4", commonNameForDataset + " Normalised");
+                textBox1.AppendText(ss);
+                textBox1.AppendText("\r\n\r\n");
+
+                DataClass task3Exemplar = task3Raw.makeExemplar(inputs, outputs, 1);
+                string se = task3Exemplar.showDataPart(5, inputs + outputs, "F4", commonNameForDataset + " Exemplar Data");
+                textBox1.AppendText(se);
+                textBox1.AppendText("\r\n\r\n");
+
+                trainData = new DataClass();
+                testData = new DataClass();
+                valData = new DataClass();
+                DataClass tempData = new DataClass();
+
+                task3Exemplar.extractSplit(out trainData, out tempData, sizeOfTrain, rnd1);
+                tempData.extractSplit(out testData, out valData, sizeOfTest, rnd1);
+                trainData.writeToFile(dir, @"\Ass1Data\Out\task3\task3TempTrain.txt"); // debug
+                testData.writeToFile(dir, @"\Ass1Data\Out\task3\task3TempTest.txt");
+                valData.writeToFile(dir, @"\Ass1Data\Out\task3\task3TempVal.txt");
+
+                showDataDistribution(trainData, "Training Data Class Distribution", outputs);
+                showDataDistribution(testData, "Testing Data Class Distribution", outputs);
+                showDataDistribution(valData, "Validation Data Class Distribution", outputs);
+
+                string s1 = trainData.showDataPart(5, inputs + outputs, "F4", commonNameForDataset + " Training Data");
+                textBox1.AppendText(s1);
+                textBox1.AppendText("\r\n\r\n");
+
+                string s2 = testData.showDataPart(5, inputs + outputs, "F4", commonNameForDataset + " Testing Data");
+                textBox1.AppendText(s2);
+                textBox1.AppendText("\r\n\r\n");
+
+                string s3 = valData.showDataPart(5, inputs + outputs, "F4", commonNameForDataset + " Validation Data");
+                textBox1.AppendText(s3);
+                textBox1.AppendText("\r\n\r\n");
+
+                NeuralNetwork nn = new NeuralNetwork(inputs, hidden, outputs, new UI(this), rnd2);
+                nn.InitializeWeights(rnd2);
+                textBox1.AppendText("\r\nBeginning training using incremental back-propagation\r\n");
+                nn.train(trainData.data, testData.data, epochs, eta, dir + @"\Ass1Data\Out\task3\nnlog.txt", nnChart, nnProgressBar, true);
+                textBox1.AppendText("Training complete\r\n");
+
+                double trainAcc = nn.Accuracy(trainData.data, dir + @"\Ass1Data\Out\task3\trainOut.txt");
+                string ConfusionTrain = nn.showConfusionPercent(dir + @"\Ass1Data\Out\task3\trainConfusion.txt");
+                double testAcc = nn.Accuracy(testData.data, dir + @"\Ass1Data\Out\task3\testOut.txt");
+                string ConfusionTest = nn.showConfusionPercent(dir + @"\Ass1Data\Out\task3\testConfusion.txt");
+                double valAcc = nn.Accuracy(valData.data, dir + @"\Ass1Data\Out\task3\valOut.txt");
+                string ConfusionVal = nn.showConfusionPercent(dir + @"\Ass1Data\Out\task3\valConfusion.txt");
+
+                // convert accuracy to percents
+                trainAcc = trainAcc * 100;
+                testAcc = testAcc * 100;
+                valAcc = valAcc * 100;
+                textBox1.AppendText("TODAY'S SEED: " + seed.ToString() + "\r\n\r\n");
+                textBox1.AppendText("Training Accuracy   = " + trainAcc.ToString("F2") + "\r\n");
+                textBox1.AppendText("Testing Accuracy    = " + testAcc.ToString("F2") + "\r\n");
+                textBox1.AppendText("Validation Accuracy = " + valAcc.ToString("F2") + "\r\n");
+                textBox1.AppendText("\r\n\r\n");
+
+                records.Add(new string[] {
+                        iterations.ToString(),
+                        seed.ToString(),
+                        trainAcc.ToString("F2"),
+                        testAcc.ToString("F2"),
+                        valAcc.ToString("F2")
+                    });
+
+                textBox1.AppendText("Training Confusion Matrix \r\n" + ConfusionTrain + "\r\n\r\n");
+                textBox1.AppendText("Testing Confusion Matrix \r\n" + ConfusionTest + "\r\n\r\n");
+                textBox1.AppendText("Validation Confusion Matrix \r\n" + ConfusionVal + "\r\n\r\n");
+
+                // finally save weights for the future
+                nn.saveANN(dir + @"\Ass1Data\Out\task3\task3_Weights.txt");
+
+                // Read the output files to determine which point was wrong
+                DataClass trainOut = new DataClass(dir, @"\Ass1Data\Out\task3\trainOut.txt", new UI(this));
+                DataClass testOut = new DataClass(dir, @"\Ass1Data\Out\task3\testOut.txt", new UI(this));
+                DataClass valOut = new DataClass(dir, @"\Ass1Data\Out\task3\valOut.txt", new UI(this));
+
+                for (int row = 0; row < trainOut.rows; ++row)
+                {
+                    int expected = (int)trainOut.data[row][2];
+                    int actual = (int)trainOut.data[row][5];
+
+                    if (actual != expected)
+                    {
+                        double[] point = trainData.data[row];
+                        string pointRep = String.Join(" ", from data in point select data);
+                        int defaultOut;
+                        anomalous.TryGetValue(pointRep, out defaultOut);
+                        anomalous[pointRep] = defaultOut + 1;
+                    }
+                }
+
+                for (int row = 0; row < testOut.rows; ++row)
+                {
+                    int expected = (int)testOut.data[row][2];
+                    int actual = (int)testOut.data[row][5];
+
+                    if (actual != expected)
+                    {
+                        double[] point = testData.data[row];
+                        string pointRep = String.Join(" ", from data in point select data);
+                        int defaultOut;
+                        anomalous.TryGetValue(pointRep, out defaultOut);
+                        anomalous[pointRep] = defaultOut + 1;
+                    }
+                }
+
+                for (int row = 0; row < valOut.rows; ++row)
+                {
+                    int expected = (int)valOut.data[row][2];
+                    int actual = (int)valOut.data[row][5];
+
+                    if (actual != expected)
+                    {
+                        double[] point = valData.data[row];
+                        string pointRep = String.Join(" ", from data in point select data);
+                        int defaultOut;
+                        anomalous.TryGetValue(pointRep, out defaultOut);
+                        anomalous[pointRep] = defaultOut + 1;
+                    }
+                }
+            }
+
+
+            textBox1.AppendText("TODAY'S Split SEED: " + String.Join(" ", from record in records select record[0]) + "\r\n");
+            textBox1.AppendText("TODAY'S Weight SEED: " + String.Join(" ", from record in records select record[1]) + "\r\n");
+            textBox1.AppendText("Training Accuracy   = " + String.Join(" ", from record in records select record[2]) + "\r\n");
+            textBox1.AppendText("Testing Accuracy    = " + String.Join(" ", from record in records select record[3]) + "\r\n");
+            textBox1.AppendText("Validation Accuracy = " + String.Join(" ", from record in records select record[4]) + "\r\n");
+            textBox1.AppendText("\r\n\r\n");
+
+            textBox1.AppendText("Anomalous:\r\n");
+            foreach (var pair in anomalous.OrderBy(p => p.Value).Reverse())
+            {
+                textBox1.AppendText("Incorrect#: " + pair.Value.ToString() + " Point: " + pair.Key + "\r\n");
+            }
+        }
+
         private void buttonFaceAssignment_Click(object sender, EventArgs e)
         {
             // Code for face assignment

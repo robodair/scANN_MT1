@@ -93,6 +93,9 @@
     <Content Include="Data\Ass1Data\Out\task2z11\placeholder.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Data\Ass1Data\Out\task3\placeholder.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\Ass1Data\Out\weedseed\placeholder.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
