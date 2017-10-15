@@ -898,16 +898,99 @@ namespace ANNShell
 
         private void buttonFaceAssignment_Click(object sender, EventArgs e)
         {
-            // Code for face assignment
-            //"trainFaceBoth.txt"
-            dir = @"F:\B\SC2016Assignment\FaceDataProcessed\";
-            string datafile = "trainFaceBoth.txt";
-            string commonNameFoDataset = "Face";
+            string dir = this.textPath.Text;
+            string datafile = @"\Ass1Data\FaceDataBoth.txt";
+            string commonNameForDataset = "FaceBoth Dataset";
+
             int inputs = 49;
-            int hidden = 49;
             int outputs = 2;
-            Random rnd1 = new Random(103); // data split random number
-            Random rnd2 = new Random(104); // ANN initialise weights and shuffle data random number
+
+            int hidden = (int)numericNodesBox.Value;
+            double eta = (double)numericETA.Value;
+            int epochs = (int)numericEpochsBox.Value;
+
+            Random rnd1 = new Random(2007); // data split random number
+            int seed = System.DateTime.UtcNow.Millisecond;
+            //int seed = (int)numericFaceBothSeed.Value;
+            Random rnd2 = new Random(seed); // ANN initialise weights and shuffle data random number
+            int sizeOfDataSet = 6977;
+            int sizeOfTest = sizeOfDataSet / 3;
+            int sizeOfValidation = sizeOfDataSet / 3;
+            int sizeOfTrain = sizeOfDataSet - sizeOfTest - sizeOfValidation;
+
+            textBox2.Clear(); // clear previous messages
+
+            DataClass faceBothRaw = new DataClass(dir, datafile, new UI(this));
+            string s = faceBothRaw.showDataPart(5, inputs + 1, "F4", commonNameForDataset);
+            textBox1.AppendText(s);
+            textBox1.AppendText("\r\n\r\n");
+
+            faceBothRaw.normalize(0, inputs - 1, "");
+            string ss = faceBothRaw.showDataPart(5, inputs + 1, "F4", commonNameForDataset + " Normalised");
+            textBox1.AppendText(ss);
+            textBox1.AppendText("\r\n\r\n");
+
+            DataClass faceBothExemplar = faceBothRaw.makeExemplar(inputs, outputs, 0);
+            string se = faceBothExemplar.showDataPart(5, inputs + outputs, "F4", commonNameForDataset + " Exemplar Data");
+            textBox1.AppendText(se);
+            textBox1.AppendText("\r\n\r\n");
+
+            trainData = new DataClass();
+            testData = new DataClass();
+            valData = new DataClass();
+            DataClass tempData = new DataClass();
+
+            faceBothExemplar.extractSplit(out trainData, out tempData, sizeOfTrain, rnd1);
+            tempData.extractSplit(out testData, out valData, sizeOfTest, rnd1);
+            trainData.writeToFile(dir, @"\Ass1Data\Out\faceBoth\faceBothTempTrain.txt"); // debug
+            testData.writeToFile(dir, @"\Ass1Data\Out\faceBoth\faceBothTempTest.txt");
+            valData.writeToFile(dir, @"\Ass1Data\Out\faceBoth\faceBothTempVal.txt");
+
+            showDataDistribution(trainData, "Training Data Class Distribution", outputs);
+            showDataDistribution(testData, "Testing Data Class Distribution", outputs);
+            showDataDistribution(valData, "Validation Data Class Distribution", outputs);
+
+            string s1 = trainData.showDataPart(5, inputs + outputs, "F4", commonNameForDataset + " Training Data");
+            textBox1.AppendText(s1);
+            textBox1.AppendText("\r\n\r\n");
+
+            string s2 = testData.showDataPart(5, inputs + outputs, "F4", commonNameForDataset + " Testing Data");
+            textBox1.AppendText(s2);
+            textBox1.AppendText("\r\n\r\n");
+
+            string s3 = valData.showDataPart(5, inputs + outputs, "F4", commonNameForDataset + " Validation Data");
+            textBox1.AppendText(s3);
+            textBox1.AppendText("\r\n\r\n");
+
+            NeuralNetwork nn = new NeuralNetwork(inputs, hidden, outputs, new UI(this), rnd2);
+            nn.InitializeWeights(rnd2);
+            textBox1.AppendText("\r\nBeginning training using incremental back-propagation\r\n");
+            nn.train(trainData.data, testData.data, epochs, eta, dir + @"\Ass1Data\Out\faceBoth\nnlog.txt", nnChart, nnProgressBar, true);
+            textBox1.AppendText("Training complete\r\n");
+
+            double trainAcc = nn.Accuracy(trainData.data, dir + @"\Ass1Data\Out\faceBoth\trainOut.txt");
+            string ConfusionTrain = nn.showConfusionPercent(dir + @"\Ass1Data\Out\faceBoth\trainConfusion.txt");
+            double testAcc = nn.Accuracy(testData.data, dir + @"\Ass1Data\Out\faceBoth\testOut.txt");
+            string ConfusionTest = nn.showConfusionPercent(dir + @"\Ass1Data\Out\faceBoth\testConfusion.txt");
+            double valAcc = nn.Accuracy(valData.data, dir + @"\Ass1Data\Out\faceBoth\valOut.txt");
+            string ConfusionVal = nn.showConfusionPercent(dir + @"\Ass1Data\Out\faceBoth\valConfusion.txt");
+
+            // convert accuracy to percents
+            trainAcc = trainAcc * 100;
+            testAcc = testAcc * 100;
+            valAcc = valAcc * 100;
+            textBox1.AppendText("TODAY'S SEED: " + seed.ToString() + "\r\n\r\n");
+            textBox1.AppendText("Training Accuracy   = " + trainAcc.ToString("F2") + "\r\n");
+            textBox1.AppendText("Testing Accuracy    = " + testAcc.ToString("F2") + "\r\n");
+            textBox1.AppendText("Validation Accuracy = " + valAcc.ToString("F2") + "\r\n");
+            textBox1.AppendText("\r\n\r\n");
+
+            textBox1.AppendText("Training Confusion Matrix \r\n" + ConfusionTrain + "\r\n\r\n");
+            textBox1.AppendText("Testing Confusion Matrix \r\n" + ConfusionTest + "\r\n\r\n");
+            textBox1.AppendText("Validation Confusion Matrix \r\n" + ConfusionVal + "\r\n\r\n");
+
+            // finally save weights for the future
+            nn.saveANN(dir + @"\Ass1Data\Out\faceBoth\faceBoth_Weights.txt");
         }
     }
 }

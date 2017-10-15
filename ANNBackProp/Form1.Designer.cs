@@ -63,6 +63,7 @@
             this.numericTask2z11Seed = new System.Windows.Forms.NumericUpDown();
             this.numericTask2z13Seed = new System.Windows.Forms.NumericUpDown();
             this.btnTask3 = new System.Windows.Forms.Button();
+            this.numericFaceBothSeed = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.nnChart)).BeginInit();
             this.layoutOutputAndGraph.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericNodesBox)).BeginInit();
@@ -71,6 +72,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericWeedSeedSeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericTask2z11Seed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericTask2z13Seed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericFaceBothSeed)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonQuit
@@ -460,11 +462,29 @@
             this.btnTask3.UseVisualStyleBackColor = true;
             this.btnTask3.Click += new System.EventHandler(this.btnTask3_Click);
             // 
+            // numericFaceBothSeed
+            // 
+            this.numericFaceBothSeed.Location = new System.Drawing.Point(434, 66);
+            this.numericFaceBothSeed.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericFaceBothSeed.Name = "numericFaceBothSeed";
+            this.numericFaceBothSeed.Size = new System.Drawing.Size(61, 20);
+            this.numericFaceBothSeed.TabIndex = 30;
+            this.numericFaceBothSeed.Value = new decimal(new int[] {
+            133,
+            0,
+            0,
+            0});
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1338, 612);
+            this.Controls.Add(this.numericFaceBothSeed);
             this.Controls.Add(this.btnTask3);
             this.Controls.Add(this.numericTask2z13Seed);
             this.Controls.Add(this.numericTask2z11Seed);
@@ -504,6 +524,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericWeedSeedSeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericTask2z11Seed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericTask2z13Seed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericFaceBothSeed)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -540,6 +561,7 @@
         private System.Windows.Forms.NumericUpDown numericTask2z11Seed;
         private System.Windows.Forms.NumericUpDown numericTask2z13Seed;
         private System.Windows.Forms.Button btnTask3;
+        private System.Windows.Forms.NumericUpDown numericFaceBothSeed;
     }
 }
 
