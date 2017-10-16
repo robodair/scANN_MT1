@@ -910,8 +910,8 @@ namespace ANNShell
             int epochs = (int)numericEpochsBox.Value;
 
             Random rnd1 = new Random(2007); // data split random number
-            int seed = System.DateTime.UtcNow.Millisecond;
-            //int seed = (int)numericFaceBothSeed.Value;
+            //int seed = System.DateTime.UtcNow.Millisecond;
+            int seed = (int)numericFaceBothSeed.Value;
             Random rnd2 = new Random(seed); // ANN initialise weights and shuffle data random number
             int sizeOfDataSet = 6977;
             int sizeOfTest = sizeOfDataSet / 3;
