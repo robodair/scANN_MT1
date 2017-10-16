@@ -992,5 +992,174 @@ namespace ANNShell
             // finally save weights for the future
             nn.saveANN(dir + @"\Ass1Data\Out\faceBoth\faceBoth_Weights.txt");
         }
+
+        /// <summary>
+        /// Process the full face data experiment
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonFaceAssignmentExtension_Click(object sender, EventArgs e)
+        {
+            int dataSize = 31022;
+            //int dataSize = 3; // for testing
+            int numRuns = 1;
+            {
+                // Train the unchanged network using all the face data
+                List<string[]> records = new List<string[]>();
+                for (int iterations = 0; iterations < numRuns; ++iterations)
+                {
+                    string dir = this.textPath.Text;
+                    string datafile = @"\Ass1Data\FaceDataAll_49.txt";
+                    string commonNameForDataset = "FaceAll 49 Dataset";
+
+                    int inputs = 49;
+                    int outputs = 2;
+
+                    int hidden = 49;
+                    double eta = 0.6;
+                    int epochs = 113; // 500 / (31022 / 6977)
+
+                    Random rnd1 = new Random(iterations); // data split random number
+                    int seed = System.DateTime.UtcNow.Millisecond;
+                    Random rnd2 = new Random(seed); // ANN initialise weights and shuffle data random number
+                    int sizeOfDataSet = dataSize;
+                    int sizeOfTest = sizeOfDataSet / 3;
+                    int sizeOfValidation = sizeOfDataSet / 3;
+                    int sizeOfTrain = sizeOfDataSet - sizeOfTest - sizeOfValidation;
+
+                    textBox2.Clear(); // clear previous messages
+
+                    DataClass faceAll49Raw = new DataClass(dir, datafile, new UI(this));
+                    faceAll49Raw.normalize(0, inputs - 1, "");
+                    DataClass faceAll49Exemplar = faceAll49Raw.makeExemplar(inputs, outputs, 0);
+                    trainData = new DataClass();
+                    testData = new DataClass();
+                    valData = new DataClass();
+                    DataClass tempData = new DataClass();
+
+                    faceAll49Exemplar.extractSplit(out trainData, out tempData, sizeOfTrain, rnd1);
+                    tempData.extractSplit(out testData, out valData, sizeOfTest, rnd1);
+                    trainData.writeToFile(dir, @"\Ass1Data\Out\faceAll\faceAll49TempTrain.txt"); // debug
+                    testData.writeToFile(dir, @"\Ass1Data\Out\faceAll\faceAll49TempTest.txt");
+                    valData.writeToFile(dir, @"\Ass1Data\Out\faceAll\faceAll49TempVal.txt");
+
+                    showDataDistribution(trainData, "Training Data Class Distribution", outputs);
+                    showDataDistribution(testData, "Testing Data Class Distribution", outputs);
+                    showDataDistribution(valData, "Validation Data Class Distribution", outputs);
+
+                    NeuralNetwork nn = new NeuralNetwork(inputs, hidden, outputs, new UI(this), rnd2);
+                    nn.InitializeWeights(rnd2);
+                    textBox1.AppendText("\r\nBeginning training using incremental back-propagation" + commonNameForDataset + " iteration:" + iterations.ToString());
+                    nn.train(trainData.data, testData.data, epochs, eta, dir + @"\Ass1Data\Out\faceAll\nnlog.txt", nnChart, nnProgressBar, true);
+                    textBox1.AppendText("..complete\r\n");
+
+                    double trainAcc = nn.Accuracy(trainData.data, dir + @"\Ass1Data\Out\faceAll\trainOut.txt");
+                    string ConfusionTrain = nn.showConfusionPercent(dir + @"\Ass1Data\Out\faceAll\trainConfusion.txt");
+                    double testAcc = nn.Accuracy(testData.data, dir + @"\Ass1Data\Out\faceAll\testOut.txt");
+                    string ConfusionTest = nn.showConfusionPercent(dir + @"\Ass1Data\Out\faceAll\testConfusion.txt");
+                    double valAcc = nn.Accuracy(valData.data, dir + @"\Ass1Data\Out\faceAll\valOut.txt");
+                    string ConfusionVal = nn.showConfusionPercent(dir + @"\Ass1Data\Out\faceAll\valConfusion.txt");
+
+                    // convert accuracy to percents
+                    trainAcc = trainAcc * 100;
+                    testAcc = testAcc * 100;
+                    valAcc = valAcc * 100;
+
+                    records.Add(new string[] {
+                        iterations.ToString(),
+                        seed.ToString(),
+                        trainAcc.ToString("F2"),
+                        testAcc.ToString("F2"),
+                        valAcc.ToString("F2")
+                    });
+                }
+
+                textBox1.AppendText("TODAY'S Split SEED: " + String.Join(" ", from record in records select record[0]) + "\r\n");
+                textBox1.AppendText("TODAY'S Weight SEED: " + String.Join(" ", from record in records select record[1]) + "\r\n");
+                textBox1.AppendText("Training Accuracy   = " + String.Join(" ", from record in records select record[2]) + "\r\n");
+                textBox1.AppendText("Testing Accuracy    = " + String.Join(" ", from record in records select record[3]) + "\r\n");
+                textBox1.AppendText("Validation Accuracy = " + String.Join(" ", from record in records select record[4]) + "\r\n");
+                textBox1.AppendText("\r\n\r\n");
+            }
+            foreach (int hiddenNodes in new int[] {49, 98})
+            {
+                // Train the unchanged network using the 98 inputs
+                List<string[]> records = new List<string[]>();
+                for (int iterations = 0; iterations < numRuns; ++iterations)
+                {
+                    string dir = this.textPath.Text;
+                    string datafile = @"\Ass1Data\FaceDataAll_98.txt";
+                    string commonNameForDataset = "FaceAll 98 Dataset";
+
+                    int inputs = 98;
+                    int outputs = 2;
+
+                    int hidden = hiddenNodes;
+                    double eta = 0.6;
+                    int epochs = 113; // 500 / (31022 / 6977)
+
+                    Random rnd1 = new Random(iterations); // data split random number
+                    int seed = System.DateTime.UtcNow.Millisecond;
+                    Random rnd2 = new Random(seed); // ANN initialise weights and shuffle data random number
+                    int sizeOfDataSet = dataSize;
+                    int sizeOfTest = sizeOfDataSet / 3;
+                    int sizeOfValidation = sizeOfDataSet / 3;
+                    int sizeOfTrain = sizeOfDataSet - sizeOfTest - sizeOfValidation;
+
+                    textBox2.Clear(); // clear previous messages
+
+                    DataClass faceAll98Raw = new DataClass(dir, datafile, new UI(this));
+                    faceAll98Raw.normalize(0, inputs - 1, "");
+                    DataClass faceAll98Exemplar = faceAll98Raw.makeExemplar(inputs, outputs, 0);
+                    trainData = new DataClass();
+                    testData = new DataClass();
+                    valData = new DataClass();
+                    DataClass tempData = new DataClass();
+
+                    faceAll98Exemplar.extractSplit(out trainData, out tempData, sizeOfTrain, rnd1);
+                    tempData.extractSplit(out testData, out valData, sizeOfTest, rnd1);
+                    trainData.writeToFile(dir, @"\Ass1Data\Out\faceAll\faceAll98TempTrain.txt"); // debug
+                    testData.writeToFile(dir, @"\Ass1Data\Out\faceAll\faceAll98TempTest.txt");
+                    valData.writeToFile(dir, @"\Ass1Data\Out\faceAll\faceAll98TempVal.txt");
+
+                    showDataDistribution(trainData, "Training Data Class Distribution", outputs);
+                    showDataDistribution(testData, "Testing Data Class Distribution", outputs);
+                    showDataDistribution(valData, "Validation Data Class Distribution", outputs);
+
+                    NeuralNetwork nn = new NeuralNetwork(inputs, hidden, outputs, new UI(this), rnd2);
+                    nn.InitializeWeights(rnd2);
+                    textBox1.AppendText("\r\nBeginning training using incremental back-propagation" + commonNameForDataset + " iteration:" + iterations.ToString());
+                    nn.train(trainData.data, testData.data, epochs, eta, dir + @"\Ass1Data\Out\faceAll\nnlog.txt", nnChart, nnProgressBar, true);
+                    textBox1.AppendText("..complete\r\n");
+
+                    double trainAcc = nn.Accuracy(trainData.data, dir + @"\Ass1Data\Out\faceAll\trainOut.txt");
+                    string ConfusionTrain = nn.showConfusionPercent(dir + @"\Ass1Data\Out\faceAll\trainConfusion.txt");
+                    double testAcc = nn.Accuracy(testData.data, dir + @"\Ass1Data\Out\faceAll\testOut.txt");
+                    string ConfusionTest = nn.showConfusionPercent(dir + @"\Ass1Data\Out\faceAll\testConfusion.txt");
+                    double valAcc = nn.Accuracy(valData.data, dir + @"\Ass1Data\Out\faceAll\valOut.txt");
+                    string ConfusionVal = nn.showConfusionPercent(dir + @"\Ass1Data\Out\faceAll\valConfusion.txt");
+
+                    // convert accuracy to percents
+                    trainAcc = trainAcc * 100;
+                    testAcc = testAcc * 100;
+                    valAcc = valAcc * 100;
+
+                    records.Add(new string[] {
+                        iterations.ToString(),
+                        seed.ToString(),
+                        trainAcc.ToString("F2"),
+                        testAcc.ToString("F2"),
+                        valAcc.ToString("F2")
+                    });
+                }
+
+                textBox1.AppendText("TODAY'S Split SEED: " + String.Join(" ", from record in records select record[0]) + "\r\n");
+                textBox1.AppendText("TODAY'S Weight SEED: " + String.Join(" ", from record in records select record[1]) + "\r\n");
+                textBox1.AppendText("Training Accuracy   = " + String.Join(" ", from record in records select record[2]) + "\r\n");
+                textBox1.AppendText("Testing Accuracy    = " + String.Join(" ", from record in records select record[3]) + "\r\n");
+                textBox1.AppendText("Validation Accuracy = " + String.Join(" ", from record in records select record[4]) + "\r\n");
+                textBox1.AppendText("\r\n\r\n");
+            }
+        }
     }
 }

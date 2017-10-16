@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.Title title4 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title5 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.Title title6 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.buttonQuit = new System.Windows.Forms.Button();
             this.buttonTest2 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -64,6 +64,7 @@
             this.numericTask2z13Seed = new System.Windows.Forms.NumericUpDown();
             this.btnTask3 = new System.Windows.Forms.Button();
             this.numericFaceBothSeed = new System.Windows.Forms.NumericUpDown();
+            this.buttonFaceAssignmentExtended = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nnChart)).BeginInit();
             this.layoutOutputAndGraph.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericNodesBox)).BeginInit();
@@ -135,44 +136,44 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.nnChart.BorderlineColor = System.Drawing.Color.Gray;
             this.nnChart.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea2.Name = "ChartArea1";
-            this.nnChart.ChartAreas.Add(chartArea2);
-            legend2.BorderColor = System.Drawing.Color.Black;
-            legend2.DockedToChartArea = "ChartArea1";
-            legend2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend2.IsDockedInsideChartArea = false;
-            legend2.Name = "Legend1";
-            legend2.TableStyle = System.Windows.Forms.DataVisualization.Charting.LegendTableStyle.Wide;
-            this.nnChart.Legends.Add(legend2);
+            chartArea3.Name = "ChartArea1";
+            this.nnChart.ChartAreas.Add(chartArea3);
+            legend3.BorderColor = System.Drawing.Color.Black;
+            legend3.DockedToChartArea = "ChartArea1";
+            legend3.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend3.IsDockedInsideChartArea = false;
+            legend3.Name = "Legend1";
+            legend3.TableStyle = System.Windows.Forms.DataVisualization.Charting.LegendTableStyle.Wide;
+            this.nnChart.Legends.Add(legend3);
             this.nnChart.Location = new System.Drawing.Point(462, 2);
             this.nnChart.Margin = new System.Windows.Forms.Padding(2);
             this.nnChart.Name = "nnChart";
-            series3.BorderWidth = 2;
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series3.Legend = "Legend1";
-            series3.Name = "Training";
-            series4.BorderWidth = 2;
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series4.Legend = "Legend1";
-            series4.Name = "Testing";
-            this.nnChart.Series.Add(series3);
-            this.nnChart.Series.Add(series4);
+            series5.BorderWidth = 2;
+            series5.ChartArea = "ChartArea1";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series5.Legend = "Legend1";
+            series5.Name = "Training";
+            series6.BorderWidth = 2;
+            series6.ChartArea = "ChartArea1";
+            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series6.Legend = "Legend1";
+            series6.Name = "Testing";
+            this.nnChart.Series.Add(series5);
+            this.nnChart.Series.Add(series6);
             this.nnChart.Size = new System.Drawing.Size(852, 400);
             this.nnChart.TabIndex = 6;
             this.nnChart.Text = "chart1";
-            title3.Alignment = System.Drawing.ContentAlignment.BottomCenter;
-            title3.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            title3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            title3.Name = "Epochs";
-            title3.Text = "Epochs";
-            title4.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
-            title4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            title4.Name = "Title1";
-            title4.Text = "Accuracy %";
-            this.nnChart.Titles.Add(title3);
-            this.nnChart.Titles.Add(title4);
+            title5.Alignment = System.Drawing.ContentAlignment.BottomCenter;
+            title5.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            title5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            title5.Name = "Epochs";
+            title5.Text = "Epochs";
+            title6.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
+            title6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            title6.Name = "Title1";
+            title6.Text = "Accuracy %";
+            this.nnChart.Titles.Add(title5);
+            this.nnChart.Titles.Add(title6);
             // 
             // nnProgressBar
             // 
@@ -479,11 +480,22 @@
             0,
             0});
             // 
+            // buttonFaceAssignmentExtended
+            // 
+            this.buttonFaceAssignmentExtended.Location = new System.Drawing.Point(10, 93);
+            this.buttonFaceAssignmentExtended.Name = "buttonFaceAssignmentExtended";
+            this.buttonFaceAssignmentExtended.Size = new System.Drawing.Size(485, 23);
+            this.buttonFaceAssignmentExtended.TabIndex = 31;
+            this.buttonFaceAssignmentExtended.Text = "Face Assignment Task 5 (Automated)";
+            this.buttonFaceAssignmentExtended.UseVisualStyleBackColor = true;
+            this.buttonFaceAssignmentExtended.Click += new System.EventHandler(this.buttonFaceAssignmentExtension_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1338, 612);
+            this.Controls.Add(this.buttonFaceAssignmentExtended);
             this.Controls.Add(this.numericFaceBothSeed);
             this.Controls.Add(this.btnTask3);
             this.Controls.Add(this.numericTask2z13Seed);
@@ -562,6 +574,7 @@
         private System.Windows.Forms.NumericUpDown numericTask2z13Seed;
         private System.Windows.Forms.Button btnTask3;
         private System.Windows.Forms.NumericUpDown numericFaceBothSeed;
+        private System.Windows.Forms.Button buttonFaceAssignmentExtended;
     }
 }
 
