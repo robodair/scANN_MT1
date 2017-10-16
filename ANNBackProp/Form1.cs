@@ -1002,8 +1002,9 @@ namespace ANNShell
         {
             int dataSize = 31022;
             //int dataSize = 3; // for testing
-            int numRuns = 1;
+            int numRuns = 6;
             {
+                textBox1.AppendText("FACE DATA ALL 49\r\n");
                 // Train the unchanged network using all the face data
                 List<string[]> records = new List<string[]>();
                 for (int iterations = 0; iterations < numRuns; ++iterations)
@@ -1043,10 +1044,6 @@ namespace ANNShell
                     testData.writeToFile(dir, @"\Ass1Data\Out\faceAll\faceAll49TempTest.txt");
                     valData.writeToFile(dir, @"\Ass1Data\Out\faceAll\faceAll49TempVal.txt");
 
-                    showDataDistribution(trainData, "Training Data Class Distribution", outputs);
-                    showDataDistribution(testData, "Testing Data Class Distribution", outputs);
-                    showDataDistribution(valData, "Validation Data Class Distribution", outputs);
-
                     NeuralNetwork nn = new NeuralNetwork(inputs, hidden, outputs, new UI(this), rnd2);
                     nn.InitializeWeights(rnd2);
                     textBox1.AppendText("\r\nBeginning training using incremental back-propagation" + commonNameForDataset + " iteration:" + iterations.ToString());
@@ -1083,6 +1080,7 @@ namespace ANNShell
             }
             foreach (int hiddenNodes in new int[] {49, 98})
             {
+                textBox1.AppendText("FACE DATA ALL 98, with " + hiddenNodes.ToString() + " Hidden nodes\r\n");
                 // Train the unchanged network using the 98 inputs
                 List<string[]> records = new List<string[]>();
                 for (int iterations = 0; iterations < numRuns; ++iterations)
@@ -1121,10 +1119,6 @@ namespace ANNShell
                     trainData.writeToFile(dir, @"\Ass1Data\Out\faceAll\faceAll98TempTrain.txt"); // debug
                     testData.writeToFile(dir, @"\Ass1Data\Out\faceAll\faceAll98TempTest.txt");
                     valData.writeToFile(dir, @"\Ass1Data\Out\faceAll\faceAll98TempVal.txt");
-
-                    showDataDistribution(trainData, "Training Data Class Distribution", outputs);
-                    showDataDistribution(testData, "Testing Data Class Distribution", outputs);
-                    showDataDistribution(valData, "Validation Data Class Distribution", outputs);
 
                     NeuralNetwork nn = new NeuralNetwork(inputs, hidden, outputs, new UI(this), rnd2);
                     nn.InitializeWeights(rnd2);
