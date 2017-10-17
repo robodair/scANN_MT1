@@ -1002,9 +1002,9 @@ namespace ANNShell
         {
             int dataSize = 31022;
             //int dataSize = 3; // for testing
-            int numRuns = 6;
+            int numRuns = 10;
             {
-                textBox1.AppendText("FACE DATA ALL 49\r\n");
+                textBox1.AppendText("FACE DATA ALL 49, with 38 Hidden nodes\r\n");
                 // Train the unchanged network using all the face data
                 List<string[]> records = new List<string[]>();
                 for (int iterations = 0; iterations < numRuns; ++iterations)
@@ -1016,12 +1016,12 @@ namespace ANNShell
                     int inputs = 49;
                     int outputs = 2;
 
-                    int hidden = 49;
+                    int hidden = 38;
                     double eta = 0.6;
                     int epochs = 113; // 500 / (31022 / 6977)
 
                     Random rnd1 = new Random(iterations); // data split random number
-                    int seed = System.DateTime.UtcNow.Millisecond;
+                    int seed = iterations * 2 + 2017 / 2;
                     Random rnd2 = new Random(seed); // ANN initialise weights and shuffle data random number
                     int sizeOfDataSet = dataSize;
                     int sizeOfTest = sizeOfDataSet / 3;
@@ -1046,7 +1046,7 @@ namespace ANNShell
 
                     NeuralNetwork nn = new NeuralNetwork(inputs, hidden, outputs, new UI(this), rnd2);
                     nn.InitializeWeights(rnd2);
-                    textBox1.AppendText("\r\nBeginning training using incremental back-propagation" + commonNameForDataset + " iteration:" + iterations.ToString());
+                    textBox1.AppendText("Beginning training using incremental back-propagation" + commonNameForDataset + " iteration:" + iterations.ToString());
                     nn.train(trainData.data, testData.data, epochs, eta, dir + @"\Ass1Data\Out\faceAll\nnlog.txt", nnChart, nnProgressBar, true);
                     textBox1.AppendText("..complete\r\n");
 
@@ -1071,14 +1071,14 @@ namespace ANNShell
                     });
                 }
 
-                textBox1.AppendText("TODAY'S Split SEED: " + String.Join(" ", from record in records select record[0]) + "\r\n");
-                textBox1.AppendText("TODAY'S Weight SEED: " + String.Join(" ", from record in records select record[1]) + "\r\n");
-                textBox1.AppendText("Training Accuracy   = " + String.Join(" ", from record in records select record[2]) + "\r\n");
-                textBox1.AppendText("Testing Accuracy    = " + String.Join(" ", from record in records select record[3]) + "\r\n");
-                textBox1.AppendText("Validation Accuracy = " + String.Join(" ", from record in records select record[4]) + "\r\n");
+                textBox1.AppendText("Training Accuracy:\t" + String.Join("\t", from record in records select record[2]) + "\r\n");
+                textBox1.AppendText("Testing Accuracy:\t" + String.Join("\t", from record in records select record[3]) + "\r\n");
+                textBox1.AppendText("Validation Accuracy:\t" + String.Join("\t", from record in records select record[4]) + "\r\n");
+                textBox1.AppendText("Split Seed:\t\t" + String.Join("\t", from record in records select record[0]) + "\r\n");
+                textBox1.AppendText("Weight Seed:\t\t" + String.Join("\t", from record in records select record[1]) + "\r\n");
                 textBox1.AppendText("\r\n\r\n");
             }
-            foreach (int hiddenNodes in new int[] {49, 98})
+            foreach (int hiddenNodes in new int[] {38, 72})
             {
                 textBox1.AppendText("FACE DATA ALL 98, with " + hiddenNodes.ToString() + " Hidden nodes\r\n");
                 // Train the unchanged network using the 98 inputs
@@ -1097,7 +1097,7 @@ namespace ANNShell
                     int epochs = 113; // 500 / (31022 / 6977)
 
                     Random rnd1 = new Random(iterations); // data split random number
-                    int seed = System.DateTime.UtcNow.Millisecond;
+                    int seed = iterations * 2 + 2017 / 2; ;
                     Random rnd2 = new Random(seed); // ANN initialise weights and shuffle data random number
                     int sizeOfDataSet = dataSize;
                     int sizeOfTest = sizeOfDataSet / 3;
@@ -1122,7 +1122,7 @@ namespace ANNShell
 
                     NeuralNetwork nn = new NeuralNetwork(inputs, hidden, outputs, new UI(this), rnd2);
                     nn.InitializeWeights(rnd2);
-                    textBox1.AppendText("\r\nBeginning training using incremental back-propagation" + commonNameForDataset + " iteration:" + iterations.ToString());
+                    textBox1.AppendText("Beginning training using incremental back-propagation" + commonNameForDataset + " iteration:" + iterations.ToString());
                     nn.train(trainData.data, testData.data, epochs, eta, dir + @"\Ass1Data\Out\faceAll\nnlog.txt", nnChart, nnProgressBar, true);
                     textBox1.AppendText("..complete\r\n");
 
@@ -1147,11 +1147,11 @@ namespace ANNShell
                     });
                 }
 
-                textBox1.AppendText("TODAY'S Split SEED: " + String.Join(" ", from record in records select record[0]) + "\r\n");
-                textBox1.AppendText("TODAY'S Weight SEED: " + String.Join(" ", from record in records select record[1]) + "\r\n");
-                textBox1.AppendText("Training Accuracy   = " + String.Join(" ", from record in records select record[2]) + "\r\n");
-                textBox1.AppendText("Testing Accuracy    = " + String.Join(" ", from record in records select record[3]) + "\r\n");
-                textBox1.AppendText("Validation Accuracy = " + String.Join(" ", from record in records select record[4]) + "\r\n");
+                textBox1.AppendText("Training Accuracy:\t" + String.Join("\t", from record in records select record[2]) + "\r\n");
+                textBox1.AppendText("Testing Accuracy:\t" + String.Join("\t", from record in records select record[3]) + "\r\n");
+                textBox1.AppendText("Validation Accuracy:\t" + String.Join("\t", from record in records select record[4]) + "\r\n");
+                textBox1.AppendText("Split Seed:\t\t" + String.Join("\t", from record in records select record[0]) + "\r\n");
+                textBox1.AppendText("Weight Seed:\t\t" + String.Join("\t", from record in records select record[1]) + "\r\n");
                 textBox1.AppendText("\r\n\r\n");
             }
         }
